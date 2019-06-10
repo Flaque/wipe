@@ -1,0 +1,17 @@
+#!/bin/bash
+
+current=$(git branch --contains | sed 's/*//' | xargs);
+
+echo -n "Hard reset to origin/$current? (y/n) ";
+read answer;
+
+if [ "$answer" != "${answer#[Yy]}" ]; then
+    git clean -f;
+    echo "Removed recent changes";
+
+    git reset --hard origin/$current;
+    echo "Reset to origin/$current";
+else
+    echo "No changes made."
+    exit 0;
+fi
